@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>To do list lab</title>
+	<link rel="stylesheet" type="text/css" href="styles/styles.css">
+</head>
+<body>
+	<div id='container'>
+		<header>
+			<h2>To Do List</h2>
+		</header>
+
+		<p id="itemsRemaining"></p>
+
+		<div class='addNewListItem'>
+			<input type='text' id='tb' placeholder='Add a new item'>
+			<input type='button' id='btn' value="Add">
+		</div>
+
+		<!-- Start with empty table -->
+		<table id='tbl'>
+		
+				<tr>
+					<td>Description</td>
+					<td>Completed</td>
+					<td>Remove</td>
+				</tr>
+	
+		</table>
+
+		<!-- Here's some HTML we can work with in order to show adding a new table row with text into a table:
+		<input type="text" id="tb" placeholder="kiss my keester">
+		<input type="button" id="btn" value="ADD">
+		<table id="tbl"></table> -->
+
+	</div> 
+	<!-- End id='container' div -->
+
+	<script type="text/javascript">
+		// on clicking the submit button, do the following
+		console.log(document.getElementById("tbl").rows.length);
+
+		var itemNumber = document.getElementById("tbl").rows.length-1;
+		document.getElementById('itemsRemaining').innerHTML="Items remaining: " + itemNumber;
+
+		document.getElementById('btn').onclick = function(){
+			console.log(document.getElementById('tb').value);//log out the value of the text box
+
+			var inputtedItem = document.getElementById('tb').value;
+
+			// Create table row element
+			var myTR = document.createElement('tr');
+
+
+			//Create table data element with user input
+			var myTD = document.createElement('td');
+			myTD.innerHTML = inputtedItem;//Inserts text of the inserted item between 
+			//console.log(myTD);
+
+			//Create table data element for completed(?) checkbox 
+			var completedCheckboxTD = document.createElement('td');//creates TD tags
+
+			var completedCheckbox = document.createElement('input');//creates input element
+			completedCheckbox.type = 'checkbox';	//makes input element of type checkbox
+			completedCheckbox.id = 'completedFlag';	//makes id of input element equal to completedFlag
+			completedCheckboxTD.appendChild(completedCheckbox);//appends the checkbox to the TD tags
+
+
+			//Create table data element for remove(?) checkbox 
+			var removeCheckboxTD = document.createElement('td');//creates TD tags
+
+			var removeCheckbox = document.createElement('input');//creates input element
+			removeCheckbox.type = 'checkbox';	//makes input element of type checkbox
+			removeCheckbox.id = 'removeFlag';	//makes id of input element equal to completedFlag
+			removeCheckboxTD.appendChild(removeCheckbox);//appends the checkbox to the TD tags
+
+			//Append all td to the tr as children
+			myTR.appendChild(myTD);//insert the data
+			myTR.appendChild(completedCheckboxTD);//insert the checkbox that's in the TD to the TR
+			myTR.appendChild(removeCheckboxTD);//insert the checkbox that's in the TD to the TR
+
+			//Appends TR to the table in the HTML
+			//console.log(document.getElementById('tbl').firstChild);
+			document.getElementById('tbl').appendChild(myTR);
+
+		itemNumber = document.getElementById("tbl").rows.length-1;
+		document.getElementById('itemsRemaining').innerHTML="Items remaining: " + itemNumber;
+
+		};
+		// End add event handler
+
+
+
+		// document.getElementById('btn').onclick = function(){
+
+		// }
+
+		// Sample code from Lorin (slack)
+		// Here's some sample event handler code based on this input type text and input type button:
+
+		// document.getElementById("btn").onclick = function(){
+		// console.log( document.getElementById("tb").value );
+		// };
+
+		// And here's some code that can dynamically add a TR, two TDs, some innerHTML, and an input type checkbox:
+		// var myTR = document.createElement("tr");
+		// document.getElementById("tbl").appendChild(myTR);
+		// var myTD1 = myTR.appendChild(document.createElement("td"));
+		// myTD1.innerHTML = "kjhgjkhgljkhg"; // Maybe you should steal this from what the input type text has as its value
+		// var myTD2 = myTR.appendChild(document.createElement("td"));
+		// var cb = myTD2.appendChild(document.createElement("input"));
+		// cb.type = "checkbox";
+
+
+	</script>
+
+</body>
+</html>
