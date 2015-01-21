@@ -63,6 +63,8 @@
 			var completedCheckbox = document.createElement('input');//creates input element
 			completedCheckbox.type = 'checkbox';	//makes input element of type checkbox
 			completedCheckbox.id = 'completedFlag';	//makes id of input element equal to completedFlag
+			completedCheckbox.className = 'completedFlagClass';
+			completedCheckbox.onclick = onClickHandler;//adds an event handler in the html
 			completedCheckboxTD.appendChild(completedCheckbox);//appends the checkbox to the TD tags
 
 
@@ -72,6 +74,7 @@
 			var removeCheckbox = document.createElement('input');//creates input element
 			removeCheckbox.type = 'checkbox';	//makes input element of type checkbox
 			removeCheckbox.id = 'removeFlag';	//makes id of input element equal to completedFlag
+			removeCheckbox.className = 'removeFlagClass';
 			removeCheckboxTD.appendChild(removeCheckbox);//appends the checkbox to the TD tags
 
 			//Append all td to the tr as children
@@ -80,18 +83,39 @@
 			myTR.appendChild(removeCheckboxTD);//insert the checkbox that's in the TD to the TR
 
 			//Appends TR to the table in the HTML
-			//console.log(document.getElementById('tbl').firstChild);
 			document.getElementById('tbl').appendChild(myTR);
 
-		itemNumber = document.getElementById("tbl").rows.length-1;
-		document.getElementById('itemsRemaining').innerHTML="Items remaining: " + itemNumber;
+			//Updates field that shows number of items remaning
+			itemNumber = document.getElementById("tbl").rows.length-1;
+			document.getElementById('itemsRemaining').innerHTML="Items remaining: " + itemNumber;
+
+			//Resets input field to blank
+			document.getElementById('tb').value = '';
 
 		};
 		// End add event handler
 
+		// START EVENT HANDLER FOR WHEN COMPLETED CHECKBOX IS CHECKED
+		function onClickHandler(){
+			if (this.checked){
+				itemNumber =itemNumber-1;
+				
+				document.getElementById('itemsRemaining').innerHTML="Items remaining: " + itemNumber;
+			}
+			else{
+
+				itemNumber =itemNumber+1;		
+				document.getElementById('itemsRemaining').innerHTML="Items remaining: " + itemNumber;
+			}
+
+		}
+		//END EVENT HANDLER FOR WHEN COMPLETED CHECKBOX IS CHECKED
 
 
-		// document.getElementById('btn').onclick = function(){
+
+
+		// document.getElementById('completedFlag').onclick = function(){
+		// 	var get
 
 		// }
 
