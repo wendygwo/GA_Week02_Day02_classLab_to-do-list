@@ -48,13 +48,28 @@
 
 			var inputtedItem = document.getElementById('tb').value;
 
+			//******************************************
+			//*****START FUNCTION THAT INSERTS ROW******
+			//******************************************
+			insertToDo(inputtedItem, false);
+
+			//**********************ENDS FUNCTION TO ADD ITEM******************** 
+
+			//Resets input field to blank
+			document.getElementById('tb').value = '';
+
+		};
+		// End add event handler
+
+		//START FUNCTION THAT INSERTS THE TO DO INTO THE TABLE
+		function insertToDo(toDoText, completedChecked){
 			// Create table row element
 			var myTR = document.createElement('tr');
 
 
 			//Create table data element with user input
 			var myTD = document.createElement('td');
-			myTD.innerHTML = inputtedItem;//Inserts text of the inserted item between 
+			myTD.innerHTML = toDoText;//Inserts text of the inserted item between 
 			//console.log(myTD);
 
 			//Create table data element for completed(?) checkbox 
@@ -66,6 +81,7 @@
 			completedCheckbox.className = 'completedFlagClass';
 			completedCheckbox.onclick = onClickHandler;//adds an event handler in the html
 			completedCheckboxTD.appendChild(completedCheckbox);//appends the checkbox to the TD tags
+			completedCheckbox.checked = completedChecked;
 
 
 			//Create table data element for remove(?) checkbox 
@@ -87,14 +103,12 @@
 			document.getElementById('tbl').appendChild(myTR);
 
 			//Updates field that shows number of items remaning
-			itemNumber = document.getElementById("tbl").rows.length-1;
+			itemNumber += 1; //Adds one to the number of items
 			document.getElementById('itemsRemaining').innerHTML="Items remaining: " + itemNumber;
 
-			//Resets input field to blank
-			document.getElementById('tb').value = '';
+		}
 
-		};
-		// End add event handler
+
 
 		// START EVENT HANDLER FOR WHEN COMPLETED CHECKBOX IS CHECKED
 		function onClickHandler(){
