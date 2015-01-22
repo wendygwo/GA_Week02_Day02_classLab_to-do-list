@@ -115,14 +115,12 @@
 
 		// START EVENT HANDLER FOR WHEN REMOVE CHECKBOX IS CHECKED.
 		function onClickRemoveHandler(){
-			if (this.checked){
-				itemNumber =itemNumber-1;
-				
-				document.getElementById('itemsRemaining').innerHTML="Items remaining: " + itemNumber;
-			}
-			else{
+			var completedCheckboxChecked = this.parentNode.previousSibling.firstChild.checked; //figures out if the completed checkbox has previously been checked
 
-				itemNumber =itemNumber+1;		
+			//only decrements the counter and updates the Items remaining div at the top if the completed checkbox has not already been checked for this item. Otherwise it doesn't change the number of  items at the top
+			if (!completedCheckboxChecked){
+				itemNumber =itemNumber-1;
+			
 				document.getElementById('itemsRemaining').innerHTML="Items remaining: " + itemNumber;
 			}
 
