@@ -20,7 +20,7 @@
 		<!-- Start with empty table -->
 		<table id='tbl'>
 		
-				<tr>
+				<tr id="tableHeader">
 					<td>Description</td>
 					<td>Completed</td>
 					<td>Remove</td>
@@ -75,6 +75,7 @@
 			removeCheckbox.type = 'checkbox';	//makes input element of type checkbox
 			removeCheckbox.id = 'removeFlag';	//makes id of input element equal to completedFlag
 			removeCheckbox.className = 'removeFlagClass';
+			removeCheckbox.onclick = onClickRemoveHandler;//adds an event handler in the html
 			removeCheckboxTD.appendChild(removeCheckbox);//appends the checkbox to the TD tags
 
 			//Append all td to the tr as children
@@ -97,6 +98,7 @@
 
 		// START EVENT HANDLER FOR WHEN COMPLETED CHECKBOX IS CHECKED
 		function onClickHandler(){
+			//Update the number of items remaining at the top of the page
 			if (this.checked){
 				itemNumber =itemNumber-1;
 				
@@ -111,30 +113,28 @@
 		}
 		//END EVENT HANDLER FOR WHEN COMPLETED CHECKBOX IS CHECKED
 
+		// START EVENT HANDLER FOR WHEN REMOVE CHECKBOX IS CHECKED.
+		function onClickRemoveHandler(){
+			if (this.checked){
+				itemNumber =itemNumber-1;
+				
+				document.getElementById('itemsRemaining').innerHTML="Items remaining: " + itemNumber;
+			}
+			else{
 
+				itemNumber =itemNumber+1;		
+				document.getElementById('itemsRemaining').innerHTML="Items remaining: " + itemNumber;
+			}
 
+			//finds the row to remove by going to the parent of the checkbox (the <td>), and then the parent of that (the <tr>)
+			var rowToRemove = this.parentNode.parentNode;
+			//Finds the parent of the row to remove
+			var parentRowToRemove = rowToRemove.parentNode;
+			//Removes the to do row
+			parentRowToRemove.removeChild(rowToRemove);
 
-		// document.getElementById('completedFlag').onclick = function(){
-		// 	var get
-
-		// }
-
-		// Sample code from Lorin (slack)
-		// Here's some sample event handler code based on this input type text and input type button:
-
-		// document.getElementById("btn").onclick = function(){
-		// console.log( document.getElementById("tb").value );
-		// };
-
-		// And here's some code that can dynamically add a TR, two TDs, some innerHTML, and an input type checkbox:
-		// var myTR = document.createElement("tr");
-		// document.getElementById("tbl").appendChild(myTR);
-		// var myTD1 = myTR.appendChild(document.createElement("td"));
-		// myTD1.innerHTML = "kjhgjkhgljkhg"; // Maybe you should steal this from what the input type text has as its value
-		// var myTD2 = myTR.appendChild(document.createElement("td"));
-		// var cb = myTD2.appendChild(document.createElement("input"));
-		// cb.type = "checkbox";
-
+		}
+		//END EVENT HANDLER FOR WHEN REMOVE CHECKBOX IS CHECKED
 
 	</script>
 

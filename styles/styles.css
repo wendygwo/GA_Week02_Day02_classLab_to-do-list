@@ -7,9 +7,25 @@ table{
 	margin-top: 20px;
 
 }
+#tableHeader{
+	background: gray;
+}
+/*Turns even rows' backgrounds gray*/
+tr:nth-child(even){
+	background-color: lightgray;
+}
 
 td{
 	width: 100%;
-	border: 2px solid black;
+	/*border: 2px solid black;*/
 	margin:0px;
+}
+
+.completedFlagClass{
+	display: block;
+	margin: 0 auto;
+}
+.removeFlagClass{
+	display: block;
+	margin: 0 auto;
 }
