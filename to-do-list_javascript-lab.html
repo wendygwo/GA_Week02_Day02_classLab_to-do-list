@@ -38,28 +38,109 @@
 
 	<script type="text/javascript">
 		// on clicking the submit button, do the following
-		console.log(document.getElementById("tbl").rows.length);
+		//console.log(document.getElementById("tbl").rows.length);
 
 		var itemNumber = document.getElementById("tbl").rows.length-1;
 		document.getElementById('itemsRemaining').innerHTML="Items remaining: " + itemNumber;
 
+		var toDoListArray = [];
+
+		//*****START LOCAL STORAGE PART OF CODE***************
+		// document.eventListener('DOMContentLoaded', function() {
+
+		// 	var items = localStorage.getItem('items');
+
+		// 	if(items){
+
+		// 		items = JSON.parse(items); //gets you the array of items saved in local storage back. FOR OUR PROJECT, WE'LL PROBABLY NEED TO SAVE AN ARRAY OF OBJECTS
+
+				
+
+		// 	}
+
+		// });
+		//*****END LOCAL STORAGE PART OF CODE***************
+
+
+		//*********************************************
+		//*****START LIST ITEM CONSTRUCTOR*************
+		var ListItem = function(itemDesc, completedState){
+			this.itemDesc = itemDesc,
+			this.completedState = completedState
+		}
+		//**********END LIST ITEM CONSTRUCTOR**********
+		//*********************************************
+
+
+
+		//*************************************************
+		//*******START CREATING ARRAY OF TO DOS WHICH******
+		//********WILL EVENTUALLY WRITE TO LOCALSTORAGE****
+		function createArrayOfToDos(itemDesc, completedState, itemStatus){
+			//if this is a new item, go in here to create new ListItem object and push onto array
+
+			if (itemStatus=='new'){
+				var newItem = new ListItem(itemDesc, completedState);
+				toDoListArray.push(newItem);
+				console.log('toDoListArray');
+				console.log(toDoListArray);
+			} else if (itemStatus=='completed'){
+				var indexOfItemToRemove = -1;
+
+				//MIGHT WANT TO CHANGE THIS TO A WHILE LOOP LATER
+				//MIGHT WANT TO PUT INTO A FUNCTION LATER
+				for (var i = 0; i < toDoListArray.length; i++){
+					if (toDoListArray[i].itemDesc == itemDesc){
+						indexOfItemToRemove = i; //sets the index of the item to remove
+					}
+				}
+				console.log(indexOfItemToRemove);//outputs the index of the item to remove. debugging
+				toDoListArray[indexOfItemToRemove].completedState = completedState;
+
+			}else if (itemStatus=='remove'){
+				var indexOfItemToRemove = -1;
+
+				//MIGHT WANT TO CHANGE THIS TO A WHILE LOOP LATER
+				//MIGHT WANT TO PUT INTO A FUNCTION LATER
+				for (var i = 0; i < toDoListArray.length; i++){
+					if (toDoListArray[i].itemDesc == itemDesc){
+						indexOfItemToRemove = i; //sets the index of the item to remove
+					}
+				}
+				console.log(indexOfItemToRemove);//outputs the index of the item to remove. debugging
+
+				//Removes the item from the array of to do objects
+				toDoListArray.splice(indexOfItemToRemove,1);
+
+			}
+		}
+		//*************************************************
+		//*******END CREATING ARRAY OF TO DOS WHICH********
+		//*************************************************
+
+
+		//*****START ON BUTTON CLICK PARTOF CODE***************
 		document.getElementById('btn').onclick = function(){
-			console.log(document.getElementById('tb').value);//log out the value of the text box
+			//console.log(document.getElementById('tb').value);//log out the value of the text box
 
 			var inputtedItem = document.getElementById('tb').value;
 
-			//******************************************
-			//*****START FUNCTION THAT INSERTS ROW******
-			//******************************************
+			
+			//Call function that inserts row
 			insertToDo(inputtedItem, false);
 
-			//**********************ENDS FUNCTION TO ADD ITEM******************** 
+			//Call function that creates array to be used later to turn into JSON and then saved in local storage
+			createArrayOfToDos(inputtedItem, false, 'new');
+
+			//****UNCOMMENT THE FUNCTION CALL BELOW AFTER THE FUNCTION HAS BEEN CODED. MIGHT WANT TO MOVE INTO EVENT HANDLER FOR ON BROWSER CLOSE - CALLED 'BEFORE UNLOAD' OR SOMETHING SIMILAR
+			//saveInLocalStorage(inputtedItem, false);
+
 
 			//Resets input field to blank
 			document.getElementById('tb').value = '';
 
 		};
-		// End add event handler
+		//****** END ON BUTTON CLICK PARTOF CODE***************
 
 		//START FUNCTION THAT INSERTS THE TO DO INTO THE TABLE
 		function insertToDo(toDoText, completedChecked){
@@ -115,13 +196,31 @@
 			//Update the number of items remaining at the top of the page
 			if (this.checked){
 				itemNumber =itemNumber-1;
-				
+
 				document.getElementById('itemsRemaining').innerHTML="Items remaining: " + itemNumber;
+
+				//find value of the item description to use to match on in the createArrayOfToDos function later
+				var itemDesc = this.parentNode.parentNode.firstChild.innerHTML;
+				
+				// console.log('Item description in completed event handler')
+				// console.log(itemDesc);
+
+				//call function that will change state of completed flag in array of to do items
+				createArrayOfToDos(itemDesc, true, 'completed');
 			}
 			else{
 
 				itemNumber =itemNumber+1;		
 				document.getElementById('itemsRemaining').innerHTML="Items remaining: " + itemNumber;
+
+				//find value of the item description to use to match on in the createArrayOfToDos function later
+				var itemDesc = this.parentNode.parentNode.firstChild.innerHTML;
+				
+				// console.log('Item description in completed event handler')
+				// console.log(itemDesc);
+
+				//call function that will change state of completed flag in array of to do items
+				createArrayOfToDos(itemDesc, false, 'completed');
 			}
 
 		}
@@ -144,6 +243,15 @@
 			var parentRowToRemove = rowToRemove.parentNode;
 			//Removes the to do row
 			parentRowToRemove.removeChild(rowToRemove);
+
+				//find value of the item description to use to match on in the createArrayOfToDos function later
+				var itemDesc = this.parentNode.parentNode.firstChild.innerHTML;
+				
+				// console.log('Item description in completed event handler')
+				// console.log(itemDesc);
+
+				//call function that will change state of completed flag in array of to do items
+				createArrayOfToDos(itemDesc, false, 'remove');
 
 		}
 		//END EVENT HANDLER FOR WHEN REMOVE CHECKBOX IS CHECKED
