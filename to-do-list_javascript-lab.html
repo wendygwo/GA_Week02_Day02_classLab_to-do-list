@@ -45,20 +45,38 @@
 
 		var toDoListArray = [];
 
+
+
+
 		//*****START LOCAL STORAGE PART OF CODE***************
-		// document.eventListener('DOMContentLoaded', function() {
+		//*****THIS PART GRABS WHAT'S IN LOCAL STORAGE WHEN WINDOW LOADS
+		//*****************************
+		window.addEventListener('DOMContentLoaded', function(){
+			console.log('Page loaded');
+			var loadToDosString = localStorage.getItem('toDoItems');
+		    toDoListArray = JSON.parse(loadToDosString);
 
-		// 	var items = localStorage.getItem('items');
+		    console.log(toDoListArray);
+			console.log(toDoListArray.length);
 
-		// 	if(items){
+			var numItems = toDoListArray.length;
 
-		// 		items = JSON.parse(items); //gets you the array of items saved in local storage back. FOR OUR PROJECT, WE'LL PROBABLY NEED TO SAVE AN ARRAY OF OBJECTS
+			for (var j = 0; j<numItems; j++){
+				//insertToDo(toDoText, completedChecked)
+				insertToDo(toDoListArray[j].itemDesc, toDoListArray[j].completedState);
+			}
 
-				
+		});
 
-		// 	}
 
-		// });
+		//*****THIS PART SAVES BEFORE NAVIGATING AWAY*************
+		window.addEventListener('beforeunload', function() {
+
+			console.log('Yay');
+			var stringList = JSON.stringify(toDoListArray);
+			localStorage.setItem('toDoItems', stringList);
+
+		});
 		//*****END LOCAL STORAGE PART OF CODE***************
 
 
